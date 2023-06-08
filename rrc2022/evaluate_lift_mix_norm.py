@@ -3,6 +3,7 @@ import torch
 from rrc_2022_datasets import PolicyBase
 import torch.nn as nn
 import numpy as np
+import time
 
 ############################
 #model_name = 'lift_mix_aug_tune_norm.pth'
@@ -88,10 +89,13 @@ class TorchBasePolicy(PolicyBase):
         pass  # nothing to do here
 
     def get_action(self, observation):
+        time1 = time.time()
         with torch.no_grad():
             self.policy.eval()
             observation = torch.Tensor([self.norm.norm(observation)]).to(torch.float32)
+            print(f"time prepare: {time.time()-time1}")
             action = self.policy(observation).cpu().detach().numpy()[0]
+            print(f"time inference: {time.time()-time1}")
             return action
 
 class LiftMixedPolicy(TorchBasePolicy):
