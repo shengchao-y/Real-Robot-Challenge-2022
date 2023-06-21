@@ -96,6 +96,7 @@ class TorchBasePolicy(PolicyBase):
             print(f"time prepare: {time.time()-time1}")
             action = self.policy(observation).cpu().detach().numpy()[0]
             self.policy(observation).cpu().detach().numpy()[0]
+            self.policy(observation).cpu().detach().numpy()[0]
             print(f"time inference: {time.time()-time1}")
             return action
 
